@@ -27,4 +27,56 @@ public class DeckOfCards {
             deck[swapIndex] = temp;
         }
     }
+
+    // Method to distribute cards among players
+    public static String[][] distributeCards(String[] deck, int players, int cardsPerPlayer) {
+        if (players * cardsPerPlayer > deck.length) {
+            System.out.println("Not enough cards for each player!");
+            return null;
+        }
+
+        String[][] playerCards = new String[players][cardsPerPlayer];
+        int cardIndex = 0;
+
+        for (int i = 0; i < players; i++) {
+            for (int j = 0; j < cardsPerPlayer; j++) {
+                playerCards[i][j] = deck[cardIndex++];
+            }
+        }
+        return playerCards;
+    }
+
+    // Method to print distributed cards
+    public static void displayPlayerCards(String[][] playerCards) {
+        if (playerCards == null) return;
+
+        System.out.println("\n--- Players & Their Cards ---");
+        for (int i = 0; i < playerCards.length; i++) {
+            System.out.print("Player " + (i + 1) + ": ");
+            for (String card : playerCards[i]) {
+                System.out.print(card + " | ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Get user input for players and cards per player
+        System.out.print("Enter number of players: ");
+        int players = scanner.nextInt();
+        System.out.print("Enter number of cards per player: ");
+        int cardsPerPlayer = scanner.nextInt();
+
+        // Create and shuffle the deck
+        String[] deck = createDeck();
+        shuffleDeck(deck);
+
+        // Distribute and display the cards
+        String[][] playerCards = distributeCards(deck, players, cardsPerPlayer);
+        displayPlayerCards(playerCards);
+
+        scanner.close();
+    }
 }
